@@ -36,4 +36,7 @@ export default {
 .el-main {
     padding-top: 0;
 }
+.el-card {
+    width: 48%;
+}
 </style>
