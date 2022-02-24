@@ -7,6 +7,7 @@ import '../src/assets/less/index.less'
 import store from '../store'
 import router from '../router'
 import http from 'axios'
+import '../api/mock.js'
 
 
 Vue.use(ElementUI);
