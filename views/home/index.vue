@@ -36,7 +36,9 @@
                     </div>
                 </el-card>
             </div>
-            <el-card style="height: 280px"></el-card>
+            <el-card style="height: 280px">
+                <div style="heigth: 280px" ref="echarts"></div>
+            </el-card>
             <div class="graph">
                 <el-card style="height: 260px"></el-card>
                 <el-card style="height: 260px"></el-card>
@@ -47,6 +49,8 @@
 
 <script>
 import {getData} from '../../api/data.js'
+import * as echarts from 'echarts'
+
 export default {
     name: 'home',
     data () {
@@ -101,9 +105,43 @@ export default {
     },
     mounted() {
         getData().then(res => {
+            // 取接口数据
             const {code,data }= res.data
+
+            // 成功调用接口
             if(code === 20000){
-                this.tableData = data.tableData
+                // 左边表格的数据
+                this.tableData = data.tableData;
+                // 右边图表1的订单数据
+                const order = data.orderData;
+
+                // 底下的日期数据
+                const xData = order.date
+
+                // 表格的不同折线的名称：苹果、三星等等
+                const keyArray = Object.keys(order.data[0]);
+               
+                const series = []
+                keyArray.forEach(key =>{
+                    series.push({
+                        name: key,
+                        data: order.data.map(item => item[key]),
+                        type: 'line'
+                    })
+                })
+
+                const option = {
+                    xAxis: {
+                        data: xData
+                    },
+                    yAxis: {},
+                    legand: {
+                        data: keyArray
+                    },
+                    series
+                }
+                const E = echarts.init(this.$refs.echarts);
+                E.setOption(option)
             }
             console.log(res); 
         })

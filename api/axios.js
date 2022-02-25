@@ -44,7 +44,9 @@ class HttpRequest {
 
     request(options) {
         const instance = axios.create()
+        // 把url赋值
         options = {...this.getInsideConfig(), ...options}
+        // 拦截
         this.interceptors(instance)
         return instance(options)
     }
